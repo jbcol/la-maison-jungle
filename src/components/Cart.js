@@ -1,7 +1,21 @@
 import { useState } from 'react'
 import '../styles/Cart.css'
 
+
+
 function Cart({ cart, updateCart }) {
+
+	function removeOneItem(cart,index){
+		if(cart[index].amount===1){
+			cart.splice(index,1);
+			updateCart(cart);
+		}
+		else{
+			cart[index].amount--;
+			updateCart(cart);
+		}
+	}
+
 	const [isOpen, setIsOpen] = useState(true)
 	const total = cart.reduce(
 		(acc, plantType) => acc + plantType.amount * plantType.price,
@@ -22,6 +36,10 @@ function Cart({ cart, updateCart }) {
 						{cart.map(({ name, price, amount }, index) => (
 							<div key={`${name}-${index}`}>
 								{name} {price}€ x {amount}
+								<button className='lmj-cart-toggle-button-withdraw' 
+								onClick={() => removeOneItem(cart,index)}>
+									retirer une plante
+								</button>
 							</div>
 						))}
 					</ul>
