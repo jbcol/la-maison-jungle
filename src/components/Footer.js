@@ -1,8 +1,10 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import '../styles/Footer.css'
 
 function Footer() {
 	const [inputValue, setInputValue] = useState('')
+
+	useEffect(()=>{return})
 
 	function handleInput(e) {
 		setInputValue(e.target.value)

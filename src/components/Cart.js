@@ -1,26 +1,28 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import '../styles/Cart.css'
 
+function Cart({ cart, updateCart, activeCategory, setActiveCategory}) {
 
-
-function Cart({ cart, updateCart }) {
-
-	function removeOneItem(cart,index){
-		if(cart[index].amount===1){
-			cart.splice(index,1);
-			updateCart(cart);
-		}
-		else{
-			cart[index].amount--;
-			updateCart(cart);
-		}
-	}
+    function removeToCart(name, price, amount, index) {
+        const cartFilteredCurrentPlant = cart.filter((plant) => plant.name !== name)
+        if(amount == 1) {
+            updateCart(cartFilteredCurrentPlant)
+        }else {
+            cartFilteredCurrentPlant.splice(index, 0, {name, price, amount: (amount - 1)})
+            updateCart(cartFilteredCurrentPlant)
+        }
+    }
 
 	const [isOpen, setIsOpen] = useState(true)
 	const total = cart.reduce(
 		(acc, plantType) => acc + plantType.amount * plantType.price,
 		0
 	)
+	
+	useEffect(() => {
+		document.title = `LMJ: ${total}€ d'achats`
+	}, [total])
+
 	return isOpen ? (
 		<div className='lmj-cart'>
 			<button
@@ -37,7 +39,7 @@ function Cart({ cart, updateCart }) {
 							<div key={`${name}-${index}`}>
 								{name} {price}€ x {amount}
 								<button className='lmj-cart-toggle-button-withdraw' 
-								onClick={() => removeOneItem(cart,index)}>
+								onClick={() => removeToCart(name, price, amount, index)}>
 									retirer une plante
 								</button>
 							</div>

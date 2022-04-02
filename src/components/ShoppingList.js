@@ -4,8 +4,7 @@ import PlantItem from './PlantItem'
 import '../styles/ShoppingList.css'
 import Categories from './Categories'
 
-function ShoppingList({ cart, updateCart }) {
-	const [activeCategory, setActiveCategory] = useState('')
+function ShoppingList({ cart, updateCart, activeCategory, setActiveCategory }) {
 	const categories = plantList.reduce(
 		(acc, plant) =>
 			acc.includes(plant.category) ? acc : acc.concat(plant.category),
